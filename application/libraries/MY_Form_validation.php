@@ -5,7 +5,7 @@ defined('BASEPATH') or exit('Direct Script is not allowed');
 class MY_Form_validation extends CI_Form_validation {
 
     const human_name_regex = '/^[a-zA-Z. ]*$/';
-    const school_id_regex = '/^\d{4}[-]\d{4}$/';
+    const school_id_regex = '/^[A-Z]{1}\d{7}$/';
 
     public function numeric_0_to_9($value) {
         $this->CI->form_validation->set_message('numeric_0_to_9', 'Please select score in Key <b>{field}</b>.');
@@ -27,7 +27,7 @@ class MY_Form_validation extends CI_Form_validation {
     }
 
     public function school_id($value) {
-        $this->CI->form_validation->set_message('school_id', 'Invalid <b>{field}</b> format. must be XXXX-XXXX');
+        $this->CI->form_validation->set_message('school_id', 'Invalid <b>{field}</b> format. must be [C]-[7digit]');
         if (preg_match(MY_Form_validation::school_id_regex, $value)) {
             return TRUE;
         }
