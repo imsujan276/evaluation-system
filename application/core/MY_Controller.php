@@ -6,206 +6,142 @@ class MY_Controller extends CI_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->validate_session();
-    }
 
-    private function validate_session() {
-        $this->load->model('Session_Model');
-        $this->Session_Model->my_check_session();
 
-    }
+        // load from spark
+        //$this->load->spark('codeigniter-log/1.0.0');
+        // load from CI library
+        //if production will enable this 
+        if (ENVIRONMENT === 'production') {
 
-    public function my_navigations() {
-        return array(
-            'home' =>
-            array(
-                'label' => 'Home',
-                'desc' => 'Home Description',
-                'icon' => 'home',
-            ),
-            'parameter' =>
-            array(
-                'label' => 'Parameter',
-                'desc' => 'Parameter Description',
-                'icon' => 'wrench',
-            ),
-            //sub menu
-            'menus1' =>
-            array(
-                'label' => 'Manage Area',
-                'icon' => 'pushpin',
-                'count' => '4',
-                'sub' =>
-                array(
-                    'batch' =>
-                    array(
-                        'label' => 'Batch',
-                        'desc' => 'Batch Description',
-                    ),
-                    'branch' =>
-                    array(
-                        'label' => 'Branch',
-                        'desc' => 'Branch Description',
-                    ),
-                    'semester' =>
-                    array(
-                        'label' => 'Semester',
-                        'desc' => 'Semester Description',
-                    ),
-                    'division' =>
-                    array(
-                        'label' => 'Division',
-                        'desc' => 'Division Description',
-                    ),
-                ),
-            ), //sub menu
-            'menus2' =>
-            array(
-                'label' => 'Users / Subjects',
-                'icon' => 'group',
-                'count' => '3',
-                'sub' =>
-                array(
-                    'subject' =>
-                    array(
-                        'label' => 'Subject',
-                        'desc' => 'Subject Description',
-                    ),
-                    'student' =>
-                    array(
-                        'label' => 'Student',
-                        'desc' => 'Student Description',
-                    ),
-                    'faculty' =>
-                    array(
-                        'label' => 'Faculty',
-                        'desc' => 'Faculty Description',
-                    ),
-                ),
-            ), //sub menu
-            'menus3' =>
-            array(
-                'label' => 'Feedback',
-                'icon' => 'th-list',
-                'count' => '3',
-                'sub' =>
-                array(
-                    'category' =>
-                    array(
-                        'label' => 'Feedback Category',
-                        'desc' => 'Feedback Category Description',
-                    ),
-                    'question' =>
-                    array(
-                        'label' => 'Feedback Question',
-                        'desc' => 'Feedback Question Description',
-                    ),
-                    'feedback' =>
-                    array(
-                        'label' => 'Feedback',
-                        'desc' => 'Feedback Description',
-                    ),
-                ),
-            ), //sub menu
-            'menus4' =>
-            array(
-                'label' => 'Settings',
-                'icon' => 'cogs',
-                'count' => '3',
-                'sub' =>
-                array(
-                    'backup' =>
-                    array(
-                        'label' => 'Backup Database',
-                        'desc' => 'Backup Database Description',
-                    ),
-                    'password' =>
-                    array(
-                        'label' => 'Change Password',
-                        'desc' => 'Change Passwor Description',
-                    ),
-                    'logs' =>
-                    array(
-                        'label' => 'Error Logs',
-                        'desc' => 'Error Logsn Description',
-                    ),
-                ),
-            ),
-        );
-    }
+            $this->load->library('lib_log');
+        }
+        $this->load->library(array('ion_auth', 'form_validation'));
 
-    private function setting_navs() {
-        return array(
-            'backup' =>
-            array(
-                'label' => 'Backup Database',
-                'desc' => 'Backup Database Description',
-                'icon' => 'file',
-            ),
-            'password' =>
-            array(
-                'label' => 'Change Password',
-                'desc' => 'Change Passwor Description',
-                'icon' => 'eye-close',
-            ),
-            'logs' =>
-            array(
-                'label' => 'Error Logs',
-                'desc' => 'Error Logsn Description',
-                'icon' => 'exclamation-sign',
-            ),
-        );
-    }
 
-    public function my_header_view_admin() {
-        $this->load->view('admin/header2', array(
-            'navigations' => $this->my_navigations(),
-            'setting_vavigations' => $this->setting_navs()
-        ));
-    }
+        //load the preffer user language (if logged)
+        if ($this->ion_auth->logged_in() OR $this->ion_auth->is_admin()) {
+            $this->load->model('Language_Model');
+            $data_return = $this->Language_Model->where('user_id', $this->session->userdata('user_id'))->get();
 
-    public function my_header_client() {
-        $models = array(
-            'semester' => array(
-                'model' => 'Semester_Model',
-                'id' => 'semester_id',
-                'act' => 'semester_active',
-            ),
-            'batch' => array(
-                'model' => 'Batch_Model',
-                'id' => 'batch_id',
-                'act' => 'batch_active',
-            ),
-            'branch' => array(
-                'model' => 'Branch_Model',
-                'id' => 'branch_id',
-                'act' => 'branch_active',
-            ),
-            'division' => array(
-                'model' => 'Division_Model',
-                'id' => 'division_id',
-                'act' => 'division_active',
-            ),
-        );
-
-        $rows = array();
-        foreach ($models as $k => $v) {
-            //load models
-            $this->load->model($v['model']);
-            //initialize rows
-            //prevent null
-            $rs = $this->$v['model']->get(array($v['act'] => TRUE));
-
-            if ($rs) {
-                $rows[$k] = $rs->row();
-            } else {
-                $rows[$k] = NULL;
+            if ($data_return) {
+                $this->config->set_item('language', $data_return->language_value);
             }
         }
-        $this->load->view('header', array(
-            'row' => $rows,
+
+        $this->load->database();
+        $this->load->helper(array('url', 'language'));
+
+        $this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
+
+        $this->lang->load(array('ci_score', 'ci_feedback', 'ci_evaluate', 'ci_question', 'ci_parameter', 'ci_subject', 'ci_change_language', 'ci_validation', 'auth'));
+    }
+
+    public function _render_page($view, $data = null, $returnhtml = false) {//I think this makes more sense
+        $this->viewdata = (empty($data)) ? $this->data : $data;
+
+        $view_html = $this->load->view($view, $this->viewdata, $returnhtml);
+
+        if ($returnhtml)
+            return $view_html; //This will return html on 3rd argument being true
+    }
+
+    public function _get_csrf_nonce() {
+        $this->load->helper('string');
+        $key = random_string('alnum', 8);
+        $value = random_string('alnum', 20);
+        $this->session->set_flashdata('csrfkey', $key);
+        $this->session->set_flashdata('csrfvalue', $value);
+
+        return array($key => $value);
+    }
+
+    public function _valid_csrf_nonce() {
+        $csrfkey = $this->input->post($this->session->flashdata('csrfkey'));
+        if ($csrfkey && $csrfkey == $this->session->flashdata('csrfvalue')) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+    /**
+     * generated bootstrap table view with pagination or just bordered
+     * 
+     * @param array $header table header
+     * @param array $data table data
+     * @param string $table_config_type config type of table (table_open_pagination | table_open_bordered
+     * @return string generated html table with data
+     * @author Lloric Mayuga Garcia <emorickfighter@gmail.com>
+     */
+    public function table_view_pagination($header, $data, $table_config_type) {
+        $this->config->load('table');
+        $this->load->library('table');
+        $this->table->set_heading($header);
+        $this->table->set_template(array(
+            'table_open' => $this->config->item($table_config_type),
         ));
-        return $rows;
+        return $this->table->generate($data);
+    }
+
+}
+
+/**
+ * administrator controller
+ */
+class Admin_Controller extends MY_Controller {
+
+    function __construct() {
+        parent::__construct();
+        if (!$this->ion_auth->logged_in() OR ! $this->ion_auth->is_admin()) {
+            redirect('auth', 'refresh');
+        }
+    }
+
+    /**
+     * header view with navigations
+     */
+    public function header_view() {
+        $this->load->helper('navigation');
+        $this->_render_page('admin/header', array(
+            'navigations' => navigations_main(),
+            'setting_vavigations' => navigations_setting()
+        ));
+    }
+    /**
+     * header view with navigations for chart
+     */
+    public function header_view_chart() {
+        $this->load->helper('navigation');
+        $this->_render_page('admin/header_chart', array(
+            'navigations' => navigations_main(),
+            'setting_vavigations' => navigations_setting()
+        ));
+    }
+
+}
+
+/**
+ * client controller
+ */
+class Public_Controller extends MY_Controller {
+
+    function __construct() {
+        parent::__construct();
+        if (!$this->ion_auth->logged_in() OR $this->ion_auth->is_admin()) {
+            redirect('auth', 'refresh');
+        }
+    }
+
+    /**
+     * header view with navigations
+     */
+    public function header_view() {
+        $this->load->helper('navigation');
+        $this->_render_page('admin/header', array(
+            'navigations' => public_navigations_main(),
+            'setting_vavigations' => public_navigations_setting()
+        ));
     }
 
 }

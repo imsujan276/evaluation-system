@@ -1,33 +1,35 @@
 <?php
 
-defined('BASEPATH') or exit('no direct script allowed');
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Remark_Model extends MY_Model {
 
-    const db_table = 'remark';
+    public function __construct() {
+        $this->table = 'remark';
+        $this->primary_key = 'remark_id';
+        //   $this->soft_deletes = true;
+        //$this->has_one['details'] = 'User_details_model';
+        // $this->has_one['details'] = array('User_details_model','user_id','id');
+        //  $this->has_one['details'] = array('local_key' => 'id', 'foreign_key' => 'user_id', 'foreign_model' => 'User_details_model');
+        // $this->has_many['posts'] = 'Post_model';
 
-    function __construct() {
         parent::__construct();
     }
 
-    public function add($values) {
-        return $this->my_insert(self::db_table, $values);
-    }
-
-    public function get($column = NULL) {
-        return $this->my_select(self::db_table, $column);
-    }
-
-    public function update($s, $w = NULL) {
-        return $this->my_update(self::db_table, $s, $w);
-    }
-
-    public function check_remark($row_sche, $row_f) {
-        return (bool) $this->get(array(
-                    'schedule_id' => $row_sche->schedule_id,
-                    'faculty_id' => $row_f->faculty_id,
-                    'student_id' => $this->session->userdata('client_id'),
-        ));
+    /**
+     * 
+     * @param array $data
+     * @return bool FALSE on failure
+     */
+    public function add($data) {
+//        $insert_data = array(
+//            array(
+//                'question_key' => $data['key'],
+//                'question_value' => $data['value'],
+//            ),
+//        );
+        return (bool) $this->db->insert_batch($this->table, $data);
+       // return TRUE;
     }
 
 }

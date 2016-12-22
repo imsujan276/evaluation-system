@@ -78,7 +78,7 @@ $db['default'] = array(
 	'hostname' => 'localhost',
 	'username' => 'root',
 	'password' => '',
-	'database' => 'evaluation',
+	'database' => 'evaluation_v2',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
@@ -94,9 +94,3 @@ $db['default'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
-/*
- * 
- * 'username' => 'lloricga_client',
-	'password' => 'clientpassword123',
-	'database' => 'lloricga_thesis_evaluation',
- */

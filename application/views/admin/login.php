@@ -1,89 +1,87 @@
 <?php
-defined('BASEPATH') or exit('Direct Script is not all');
-$title_header = 'Evaluation System | Admin Panel';
-$link = base_url('assets/libs/');
+defined('BASEPATH') or exit('no direct script allowed');
+$title = 'Log in | Evaluation System';
+$link = base_url('assets/framework/bootstrap/admin/');
 ?>
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
     <head>
-        <title>Login</title>
+        <title><?php echo $title; ?></title><meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link href="<?php echo base_url('assets/img/favicon.ico'); ?>" rel="shortcut icon" type="image/x-icon" />
-        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-        <link rel="stylesheet" type="text/css" href="<?php echo $link; ?>style.css" />
+        <link rel="stylesheet" href="<?php echo $link; ?>css/bootstrap.min.css" />
+        <link rel="stylesheet" href="<?php echo $link; ?>css/bootstrap-responsive.min.css" />
+        <link rel="stylesheet" href="<?php echo $link; ?>css/matrix-login.css" />
+        <link href="<?php echo $link; ?>font-awesome/css/font-awesome.css" rel="stylesheet" />
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+
     </head>
-
     <body>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <table width="500" border="0" align="center">
-            <tr>
-                <td>
+        <div id="loginbox">            
+            <?php echo form_open(base_url('auth/login'), array('class' => 'form-vertical', 'id' => 'loginform')) ?>
+            <div class="control-group normal_text"> <h3><img src="<?php echo $link; ?>img/logo.png" alt="Logo" /></h3></div>
+            <div class="control-group">
+                <div class="controls">
+                    <div class="main_input_box">
+                        <?php echo (!is_null($message)) ? '<div class="form-group">' . $message . '</div>' : ''; ?>       
+                    </div>
+                </div>
+            </div><div class="control-group">
+                <div class="controls">
+                    <div class="main_input_box">
+                        <span class="add-on bg_lg"><i class="icon-user"> </i></span>
+                        <?php
+                        echo form_input($identity);
+                        ?>
+                    </div>
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <div class="main_input_box">
+                        <span class="add-on bg_ly"><i class="icon-lock"></i></span>
+                        <?php
+                        echo form_password($password);
+                        ?>
+                    </div>
+                </div>
+            </div>
+            <div class="form-actions">
+                <span class="pull-left"><a href="#" class="flip-link btn btn-info" id="to-recover">Lost password?</a></span>
+                <span class="pull-right">
+                    <?php
+                    echo form_submit('submit', lang('login_submit_btn'), array(
+                        'class' => 'btn btn-success'
+                    ));
+                    ?>
+                </span>
+            </div>
+            <?php echo form_close(); ?>
+            <?php echo form_open(base_url('auth/forgot_password'), array('class' => 'form-vertical', 'id' => 'recoverform')) ?>
+            <p class="normal_text">Enter your e-mail address below and we will send you instructions how to recover a password.</p>
 
-                    <?php echo form_open(base_url('admin/login/validate'), array('name' => 'form1')) ?>
+            <div class="controls">
+                <div class="main_input_box">
+                    <span class="add-on bg_lo"><i class="icon-envelope"></i></span>
+                    <?php //echo (($type == 'email') ? sprintf(lang('forgot_password_email_label'), $identity_label) : sprintf(lang('forgot_password_identity_label'), $identity_label)); ?>
+                    <?php echo form_input($identity); ?>
+                </div>
+            </div>
 
-                    <table width="100%" border="0" cellpadding="3" cellspacing="1" bgcolor="#FFFFFF">
-                        <tr>
-                            <td colspan="3" align="center"><font size="5" ><strong><?php echo $title_header; ?></strong></font></td>
-                        </tr>
-                        <tr>
+            <div class="form-actions">
+                <span class="pull-left">
+                    <a href="#" class="flip-link btn btn-success" id="to-login">&laquo; Back to login</a>
+                </span>
+                <span class="pull-right">
+                    <?php echo form_submit('submit', lang('forgot_password_submit_btn'), array('class' => "btn btn-info")); ?>
+                </span>
+            </div>
+            <?php echo form_close(); ?>
+        </div>
 
-                            <?php
-                            echo (!is_null($msg)) ? '<div class="form-group">' . $msg . '</div>' : '';
-                            ?>
-                        </tr>
-                        <tr><td colspan="3">&nbsp;</td></tr>
-                        <tr>
-                            <td width="205" ><div align="right">Username</div></td>
-                            <td width="3"><div align="center">:</div></td>
-                            <td width="268">
-                                <div align="left">
-                                    <?php
-                                    echo form_input(array(
-                                        'name' => 'username',
-                                        'value' => set_value('username'),
-                                        'placeholder' => "Username",
-                                        'id' => 'myusername'
-                                    ));
-                                    ?>
-                                </div></td>
-                        </tr>
-                        <tr>
-                            <td><div align="right">Password</div></td>
-                            <td><div align="center">:</div></td>
-                            <td>
-                                <div align="left">
-                                    <?php
-                                    echo form_password(array(
-                                        'name' => 'password',
-                                        'placeholder' => "Password",
-                                        'id' => 'mypassword'
-                                    ));
-                                    ?>
-                                </div></td>
-                        </tr>
-                        <tr>
-                            <td><div align="right"></div></td>
-                            <td><div align="center"></div></td>
-                            <td>
-                                <div align="left">
-                                    <?php
-                                    echo form_submit('submit', 'Login', array(
-                                        'class' => 'button'
-                                    ));
-                                    ?>
-                                </div></td>
-                        </tr>
-                    </table>
-                    <?php echo form_close() ?>
-
-                </td>
-            </tr>
-            <tr><td><table width="100%">
-                        <tr>
-                            <td align="left" valign="top">&nbsp;</td>
-                            <td align="right"><font face="Times New Roman, Times, serif" size="-1" ></font></td>
-                        </tr>
-                    </table></td></tr></table>
+        <script src="<?php echo $link; ?>js/jquery.min.js"></script>  
+        <script src="<?php echo $link; ?>js/matrix.login.js"></script> 
     </body>
+
 </html>

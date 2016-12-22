@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 07, 2016 at 03:41 AM
+-- Generation Time: Dec 22, 2016 at 07:26 PM
 -- Server version: 10.1.19-MariaDB
 -- PHP Version: 5.6.24
 
@@ -17,102 +17,129 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `evaluation`
+-- Database: `evaluation_v2`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `admin`
+-- Table structure for table `admin_preferences`
 --
 
-CREATE TABLE `admin` (
-  `admin_id` int(11) NOT NULL,
-  `admin_fullname` varchar(20) NOT NULL,
-  `admin_username` varchar(20) NOT NULL,
-  `admin_password` varchar(500) NOT NULL,
-  `admin_status` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `admin_preferences` (
+  `id` tinyint(1) NOT NULL,
+  `user_panel` tinyint(1) NOT NULL DEFAULT '0',
+  `sidebar_form` tinyint(1) NOT NULL DEFAULT '0',
+  `messages_menu` tinyint(1) NOT NULL DEFAULT '0',
+  `notifications_menu` tinyint(1) NOT NULL DEFAULT '0',
+  `tasks_menu` tinyint(1) NOT NULL DEFAULT '0',
+  `user_menu` tinyint(1) NOT NULL DEFAULT '1',
+  `ctrl_sidebar` tinyint(1) NOT NULL DEFAULT '0',
+  `transition_page` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `admin`
+-- Dumping data for table `admin_preferences`
 --
 
-INSERT INTO `admin` (`admin_id`, `admin_fullname`, `admin_username`, `admin_password`, `admin_status`) VALUES
-(2, 'im Admin', 'admin', '$2y$10$ormE76GFwX.qxZd5Blw79u2vvAYYl3Kf4Ph19TNd3uxgWX6n/ooru', 1);
+INSERT INTO `admin_preferences` (`id`, `user_panel`, `sidebar_form`, `messages_menu`, `notifications_menu`, `tasks_menu`, `user_menu`, `ctrl_sidebar`, `transition_page`) VALUES
+(1, 0, 0, 0, 0, 0, 1, 0, 0);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `batch`
+-- Table structure for table `groups`
 --
 
-CREATE TABLE `batch` (
-  `batch_id` int(11) NOT NULL,
-  `batch_name` varchar(50) NOT NULL,
-  `batch_active` tinyint(1) NOT NULL DEFAULT '0',
-  `batch_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `admin_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `groups` (
+  `id` mediumint(8) UNSIGNED NOT NULL,
+  `name` varchar(20) NOT NULL,
+  `description` varchar(100) NOT NULL,
+  `bgcolor` char(7) NOT NULL DEFAULT '#607D8B'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `groups`
+--
+
+INSERT INTO `groups` (`id`, `name`, `description`, `bgcolor`) VALUES
+(1, 'faculty', 'Administrator', '#F44336'),
+(2, 'student', 'General User', '#2196F3');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `branch`
+-- Table structure for table `language`
 --
 
-CREATE TABLE `branch` (
-  `branch_id` int(11) NOT NULL,
-  `branch_name` varchar(50) NOT NULL,
-  `branch_active` tinyint(1) NOT NULL DEFAULT '0',
-  `branch_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `admin_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `category`
---
-
-CREATE TABLE `category` (
-  `category_id` int(11) NOT NULL,
-  `category_name` varchar(50) NOT NULL,
-  `category_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `admin_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `division`
---
-
-CREATE TABLE `division` (
-  `division_id` int(11) NOT NULL,
-  `division_name` varchar(50) NOT NULL,
-  `division_active` tinyint(1) NOT NULL DEFAULT '0',
-  `division_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `admin_id` int(11) NOT NULL
+CREATE TABLE `language` (
+  `language_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `language_value` varchar(10) NOT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `added_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `faculty`
+-- Table structure for table `login_attempts`
 --
 
-CREATE TABLE `faculty` (
-  `faculty_id` int(11) NOT NULL,
-  `faculty_name` varchar(50) NOT NULL,
-  `faculty_lastname` varchar(50) NOT NULL,
-  `branch_id` int(11) NOT NULL,
-  `faculty_school_id` varchar(10) NOT NULL,
-  `faculty_pin` varchar(200) NOT NULL,
-  `faculty_status` tinyint(1) NOT NULL DEFAULT '0',
-  `faculty_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `admin_id` int(11) NOT NULL
+CREATE TABLE `login_attempts` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `ip_address` varchar(15) NOT NULL,
+  `login` varchar(100) NOT NULL,
+  `time` int(11) UNSIGNED DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `logs`
+--
+
+CREATE TABLE `logs` (
+  `id` int(11) NOT NULL,
+  `errno` int(2) NOT NULL,
+  `errtype` varchar(32) NOT NULL,
+  `errstr` text NOT NULL,
+  `errfile` varchar(255) NOT NULL,
+  `errline` int(4) NOT NULL,
+  `user_agent` varchar(120) NOT NULL,
+  `ip_address` varchar(45) NOT NULL DEFAULT '0',
+  `time` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `parameter`
+--
+
+CREATE TABLE `parameter` (
+  `semester` varchar(20) NOT NULL,
+  `year` varchar(20) NOT NULL,
+  `course` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `public_preferences`
+--
+
+CREATE TABLE `public_preferences` (
+  `id` int(1) NOT NULL,
+  `transition_page` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `public_preferences`
+--
+
+INSERT INTO `public_preferences` (`id`, `transition_page`) VALUES
+(1, 0);
 
 -- --------------------------------------------------------
 
@@ -122,11 +149,8 @@ CREATE TABLE `faculty` (
 
 CREATE TABLE `question` (
   `question_id` int(11) NOT NULL,
-  `question_long` varchar(100) NOT NULL,
-  `question_short` varchar(500) NOT NULL,
-  `category_id` int(11) NOT NULL,
-  `question_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `admin_id` int(11) NOT NULL
+  `question_key` varchar(20) NOT NULL,
+  `question_value` varchar(1000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -137,39 +161,11 @@ CREATE TABLE `question` (
 
 CREATE TABLE `remark` (
   `remark_id` int(11) NOT NULL,
+  `faculty_id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
+  `subject_id` int(11) NOT NULL,
   `remark_value` varchar(1000) NOT NULL,
-  `remark_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `faculty_id` int(11) NOT NULL,
-  `batch_id` int(11) NOT NULL,
-  `branch_id` int(11) NOT NULL,
-  `division_id` int(11) NOT NULL,
-  `semester_id` int(11) NOT NULL,
-  `schedule_id` int(11) NOT NULL,
-  `student_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `schedule`
---
-
-CREATE TABLE `schedule` (
-  `schedule_id` int(11) NOT NULL,
-  `schedule_start` varchar(20) NOT NULL,
-  `schedule_end` varchar(20) NOT NULL,
-  `subject_term_id` int(11) NOT NULL,
-  `faculty_id` int(11) NOT NULL,
-  `schedule_room` varchar(20) NOT NULL,
-  `schedule_m` tinyint(1) NOT NULL DEFAULT '0',
-  `schedule_t` tinyint(1) NOT NULL DEFAULT '0',
-  `schedule_w` tinyint(1) NOT NULL DEFAULT '0',
-  `schedule_th` tinyint(1) NOT NULL DEFAULT '0',
-  `schedule_f` tinyint(1) NOT NULL DEFAULT '0',
-  `schedule_s` tinyint(1) NOT NULL DEFAULT '0',
-  `schedule_su` tinyint(1) NOT NULL DEFAULT '0',
-  `schedule_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `admin_id` int(11) NOT NULL
+  `remark_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -181,61 +177,11 @@ CREATE TABLE `schedule` (
 CREATE TABLE `score` (
   `score_id` int(11) NOT NULL,
   `faculty_id` int(11) NOT NULL,
-  `batch_id` int(11) NOT NULL,
-  `branch_id` int(11) NOT NULL,
-  `division_id` int(11) NOT NULL,
-  `semester_id` int(11) NOT NULL,
-  `schedule_id` int(11) NOT NULL,
   `student_id` int(11) NOT NULL,
+  `subject_id` int(11) NOT NULL,
   `score_value` int(11) NOT NULL,
-  `question_id` int(11) NOT NULL,
-  `score_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `semester`
---
-
-CREATE TABLE `semester` (
-  `semester_id` int(11) NOT NULL,
-  `semester_name` varchar(50) NOT NULL,
-  `semester_active` tinyint(1) NOT NULL DEFAULT '0',
-  `semester_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `admin_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `student`
---
-
-CREATE TABLE `student` (
-  `student_id` int(11) NOT NULL,
-  `student_name` varchar(50) NOT NULL,
-  `student_lastname` varchar(50) NOT NULL,
-  `student_school_id` varchar(50) NOT NULL,
-  `student_pin` varchar(200) NOT NULL,
-  `student_course` enum('college','highschool','elementary') NOT NULL,
-  `student_status` tinyint(1) NOT NULL DEFAULT '0',
-  `student_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `admin_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `student_schedule`
---
-
-CREATE TABLE `student_schedule` (
-  `student_schedule_id` int(11) NOT NULL,
-  `schedule_id` int(11) NOT NULL,
-  `student_id` int(11) NOT NULL,
-  `student_schedule_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `admin_id` int(11) NOT NULL
+  `score_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `question_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -246,68 +192,105 @@ CREATE TABLE `student_schedule` (
 
 CREATE TABLE `subject` (
   `subject_id` int(11) NOT NULL,
-  `subject_desc` varchar(50) NOT NULL,
+  `subject_desc` varchar(20) NOT NULL,
   `subject_code` varchar(10) NOT NULL,
-  `subject_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `admin_id` int(11) NOT NULL
+  `subject_year` varchar(20) NOT NULL,
+  `subject_semester` varchar(10) NOT NULL,
+  `subject_course` varchar(10) NOT NULL,
+  `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `subject_term`
+-- Table structure for table `users`
 --
 
-CREATE TABLE `subject_term` (
-  `subject_term_id` int(11) NOT NULL,
-  `batch_id` int(11) NOT NULL,
-  `subject_id` int(11) NOT NULL,
-  `semester_id` int(11) NOT NULL,
-  `division_id` int(11) NOT NULL,
-  `subject_term_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `admin_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `users` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `ip_address` varchar(15) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `salt` varchar(255) DEFAULT NULL,
+  `email` varchar(100) NOT NULL,
+  `activation_code` varchar(40) DEFAULT NULL,
+  `forgotten_password_code` varchar(40) DEFAULT NULL,
+  `forgotten_password_time` int(11) UNSIGNED DEFAULT NULL,
+  `remember_code` varchar(40) DEFAULT NULL,
+  `created_on` int(11) UNSIGNED NOT NULL,
+  `last_login` int(11) UNSIGNED DEFAULT NULL,
+  `active` tinyint(1) UNSIGNED DEFAULT NULL,
+  `first_name` varchar(50) DEFAULT NULL,
+  `last_name` varchar(50) DEFAULT NULL,
+  `company` varchar(100) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `salt`, `email`, `activation_code`, `forgotten_password_code`, `forgotten_password_time`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`) VALUES
+(1, '127.0.0.1', 'administrator', '$2y$08$gWUecOMjM1o05fYKvYEdZuy9YMYXieLzj6ly6y0LjnuKzNmIPZ6qO', '', 'admin@admin.com', 'd3bf03427835d496277d4c78330a125a795a33f8', NULL, NULL, NULL, 1268889823, 1482417129, 1, 'Im Admin', 'evaluation', 'ADMIN', '0');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users_groups`
+--
+
+CREATE TABLE `users_groups` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `user_id` int(11) UNSIGNED NOT NULL,
+  `group_id` mediumint(8) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `users_groups`
+--
+
+INSERT INTO `users_groups` (`id`, `user_id`, `group_id`) VALUES
+(46, 1, 1);
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `admin`
+-- Indexes for table `admin_preferences`
 --
-ALTER TABLE `admin`
-  ADD PRIMARY KEY (`admin_id`),
-  ADD UNIQUE KEY `admin_username` (`admin_username`);
+ALTER TABLE `admin_preferences`
+  ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `batch`
+-- Indexes for table `groups`
 --
-ALTER TABLE `batch`
-  ADD PRIMARY KEY (`batch_id`);
+ALTER TABLE `groups`
+  ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `branch`
+-- Indexes for table `language`
 --
-ALTER TABLE `branch`
-  ADD PRIMARY KEY (`branch_id`);
+ALTER TABLE `language`
+  ADD PRIMARY KEY (`language_id`);
 
 --
--- Indexes for table `category`
+-- Indexes for table `login_attempts`
 --
-ALTER TABLE `category`
-  ADD PRIMARY KEY (`category_id`);
+ALTER TABLE `login_attempts`
+  ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `division`
+-- Indexes for table `logs`
 --
-ALTER TABLE `division`
-  ADD PRIMARY KEY (`division_id`);
+ALTER TABLE `logs`
+  ADD PRIMARY KEY (`id`,`ip_address`,`user_agent`);
 
 --
--- Indexes for table `faculty`
+-- Indexes for table `public_preferences`
 --
-ALTER TABLE `faculty`
-  ADD PRIMARY KEY (`faculty_id`);
+ALTER TABLE `public_preferences`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `question`
@@ -322,35 +305,10 @@ ALTER TABLE `remark`
   ADD PRIMARY KEY (`remark_id`);
 
 --
--- Indexes for table `schedule`
---
-ALTER TABLE `schedule`
-  ADD PRIMARY KEY (`schedule_id`);
-
---
 -- Indexes for table `score`
 --
 ALTER TABLE `score`
   ADD PRIMARY KEY (`score_id`);
-
---
--- Indexes for table `semester`
---
-ALTER TABLE `semester`
-  ADD PRIMARY KEY (`semester_id`);
-
---
--- Indexes for table `student`
---
-ALTER TABLE `student`
-  ADD PRIMARY KEY (`student_id`),
-  ADD UNIQUE KEY `student_school_id` (`student_school_id`);
-
---
--- Indexes for table `student_schedule`
---
-ALTER TABLE `student_schedule`
-  ADD PRIMARY KEY (`student_schedule_id`);
 
 --
 -- Indexes for table `subject`
@@ -359,45 +317,54 @@ ALTER TABLE `subject`
   ADD PRIMARY KEY (`subject_id`);
 
 --
--- Indexes for table `subject_term`
+-- Indexes for table `users`
 --
-ALTER TABLE `subject_term`
-  ADD PRIMARY KEY (`subject_term_id`);
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `users_groups`
+--
+ALTER TABLE `users_groups`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uc_users_groups` (`user_id`,`group_id`),
+  ADD KEY `fk_users_groups_users1_idx` (`user_id`),
+  ADD KEY `fk_users_groups_groups1_idx` (`group_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `admin`
+-- AUTO_INCREMENT for table `admin_preferences`
 --
-ALTER TABLE `admin`
-  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `admin_preferences`
+  MODIFY `id` tinyint(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
--- AUTO_INCREMENT for table `batch`
+-- AUTO_INCREMENT for table `groups`
 --
-ALTER TABLE `batch`
-  MODIFY `batch_id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `groups`
+  MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
--- AUTO_INCREMENT for table `branch`
+-- AUTO_INCREMENT for table `language`
 --
-ALTER TABLE `branch`
-  MODIFY `branch_id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `language`
+  MODIFY `language_id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `category`
+-- AUTO_INCREMENT for table `login_attempts`
 --
-ALTER TABLE `category`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `login_attempts`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `division`
+-- AUTO_INCREMENT for table `logs`
 --
-ALTER TABLE `division`
-  MODIFY `division_id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `logs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `faculty`
+-- AUTO_INCREMENT for table `public_preferences`
 --
-ALTER TABLE `faculty`
-  MODIFY `faculty_id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `public_preferences`
+  MODIFY `id` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `question`
 --
@@ -409,40 +376,36 @@ ALTER TABLE `question`
 ALTER TABLE `remark`
   MODIFY `remark_id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `schedule`
---
-ALTER TABLE `schedule`
-  MODIFY `schedule_id` int(11) NOT NULL AUTO_INCREMENT;
---
 -- AUTO_INCREMENT for table `score`
 --
 ALTER TABLE `score`
   MODIFY `score_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `semester`
---
-ALTER TABLE `semester`
-  MODIFY `semester_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `student`
---
-ALTER TABLE `student`
-  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `student_schedule`
---
-ALTER TABLE `student_schedule`
-  MODIFY `student_schedule_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `subject`
 --
 ALTER TABLE `subject`
   MODIFY `subject_id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `subject_term`
+-- AUTO_INCREMENT for table `users`
 --
-ALTER TABLE `subject_term`
-  MODIFY `subject_term_id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `users`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+--
+-- AUTO_INCREMENT for table `users_groups`
+--
+ALTER TABLE `users_groups`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `users_groups`
+--
+ALTER TABLE `users_groups`
+  ADD CONSTRAINT `fk_users_groups_groups1` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_users_groups_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

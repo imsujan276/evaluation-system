@@ -1,52 +1,34 @@
 <?php
 
-defined('BASEPATH') or exit('no direct script allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 class Question_Model extends MY_Model {
 
-    const db_table = 'question';
+    public function __construct() {
+        $this->table = 'question';
+        $this->primary_key = 'question_id';
+        //   $this->soft_deletes = true;
+        //$this->has_one['details'] = 'User_details_model';
+        // $this->has_one['details'] = array('User_details_model','user_id','id');
+        //  $this->has_one['details'] = array('local_key' => 'id', 'foreign_key' => 'user_id', 'foreign_model' => 'User_details_model');
+        // $this->has_many['posts'] = 'Post_model';
 
-    function __construct() {
         parent::__construct();
     }
 
-    public function table_view() {
-        $data = array();
-        $rs = $this->my_select(self::db_table);
-        if ($rs) {
-            $this->load->model('Category_Model');
-            foreach ($rs->result() as $row) {
-                $row_c = $this->Category_Model->get(array('category_id' => $row->category_id))->row();
-                array_push($data, array(
-                    'id' => $row->question_id,
-                    'question' => $row->question_long,
-                    'key' => $row->question_short,
-                    'category' => $row_c->category_name,
-                    'option' => anchor(base_url('admin/question#'), 'update', array('class' => 'btn btn-success btn-mini')) . ' | '
-                    . anchor(base_url('admin/question#'), 'delete', array('class' => 'btn btn-success btn-mini')),
-                ));
-            }
-        }
-        $header = array(
-            'id' => 'ID',
-            'question' => 'Question',
-            'key' => 'Key',
-            'category' => 'Category',
-            'option' => 'Option',
+    /**
+     * 
+     * @param array $data
+     * @return bool FALSE on failure
+     */
+    public function add($data) {
+        $insert_data = array(
+            array(
+                'question_key' => $data['key'],
+                'question_value' => $data['value'],
+            ),
         );
-        return $this->my_table_view($header, $data);
-    }
-
-    public function add($values) {
-        return $this->my_insert(self::db_table, $values);
-    }
-
-    public function update($s, $w = NULL) {
-        return $this->my_update(self::db_table, $s, $w);
-    }
-
-    public function get($column = NULL) {
-        return $this->my_select(self::db_table, $column);
+        return (bool) $this->db->insert_batch($this->table, $insert_data);
     }
 
 }

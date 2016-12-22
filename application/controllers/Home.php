@@ -1,49 +1,89 @@
 <?php
 
-defined('BASEPATH') or exit('Direct Script is not allowed');
+defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Home extends MY_Controller {
+class Home extends Public_Controller {
 
-    public function __construct() {
+    /**
+     *
+     * @var array
+     */
+    private $parameters = array();
+
+    function __construct() {
         parent::__construct();
+        $this->load->model(array('Subject_Model', 'Parameter_Model', 'User_Model', 'Remark_Model'));
+        $parameter_obj = $this->Parameter_Model->get();
+        if ($parameter_obj) {
+            $this->parameters = array(
+                'subject_semester' => $parameter_obj->semester,
+                'subject_year' => $parameter_obj->year,
+                'subject_course' => $parameter_obj->course,
+            );
+        }
     }
 
-    public function index() {
-        $row = $this->my_header_client();
-        $this->load->view('myview', array(
-            'msg' => '<br /><h4>Select faculty to evaluate from current BRANCH. (according to your subject schedule.)</h4>' . $this->faculty($row),
-        ));
-        $this->load->view('admin/footer');
+    private function done($user_id, $subject_id) {
+        $remark_obj = $this->Remark_Model->where(array(
+                    'faculty_id' => $user_id,
+                    'student_id' => $this->session->userdata('user_id'),
+                    'subject_id' => $subject_id,
+                ))->get();
+        if ($remark_obj) {
+            return TRUE;
+        }
+        return FALSE;
     }
 
-    private function faculty($row) {
-        // $this->load->helper('form');
+    public function index() {// done in-progress |span class
+        $this->data['test'] = '';
 
-        $this->load->model('Faculty_Model');
-        $html = '';
-        if ($row['branch']) {
-            $rs = $this->Faculty_Model->get(array('branch_id' => $row['branch']->branch_id));
+        $subject_obj = $this->Subject_Model->where($this->parameters)->get_all();
+        //   $subject_obj = $this->Subject_Model->with_authors('fields:first_name')->where($this->parameters)->get_all();
+        //  echo $this->db->last_query();
+        $headings = array(lang('subject_code'), lang('subject_desc'), lang('subject_fuculty'), lang('evaluate_label'), lang('evaluate_status_header'));
 
-            if ($rs) {
-                $tmp = 1;
-                foreach ($rs->result() as $row) {
-                    $html .= '<p>' . anchor('faculty/index/' . $row->faculty_id, $tmp++ . '. ' . $row->faculty_school_id . ' | ' . $row->faculty_lastname . ', ' . $row->faculty_name) . '</p>';
+        $data_table = array();
+        if ($subject_obj) {
+            foreach ($subject_obj as $k => $v) {
+
+                $user_obj = $this->User_Model->where(array('id' => $v->user_id))->get();
+
+                $span = 'done';
+                $status = 'done evaluate.';
+                $link = '<i class="icon-ok-sign"></i> ' . $user_obj->last_name . ', ' . $user_obj->first_name;
+                $btn = '----';
+                if (!$this->done($user_obj->id, $v->subject_id)) {
+                    $span = 'in-progress';
+                    $status = 'not evaluated yet.';
+                    $link = '<i class="icon-plus-sign"></i> ' . $user_obj->last_name . ', ' . $user_obj->first_name;
+
+                    $btn = anchor(base_url('evaluate/index/' . $v->subject_id), lang('evaluate_label'), array('class' => 'btn btn-success btn-mini'));
                 }
-            }
-            if ($html == '') {
-                $html = 'No faculty from branch <b>' . $row['branch']->branch_name . '</b>.';
-            }
-        }
-        if ($html == '') {
-            $html = 'no data to retrive.';
-        }
-        return $html . '<br /><br />';
-    }
 
-    public function logout() {
-        $this->session->unset_userdata('logged_in');
-        session_destroy();
-        redirect(base_url('login'), 'refresh');
+
+                array_push($data_table, array(
+                    $v->subject_code,
+                    $v->subject_desc,
+                   /* '<span class="by label">' .*/ $link /*. '</span>'*/,
+                    $btn,
+                    array(
+                        'data' => '<span class="' . $span . '">' . $status . '</span>',
+                        'class' => 'taskStatus'
+                    )
+                ));
+            }
+        }
+        $this->data['table_data'] = $this->table_view_pagination($headings, $data_table, 'table_open_pagination');
+        $this->data['caption'] = lang('subject_label');
+        $this->data['controller'] = 'table';
+        $this->data['parameter'] = $this->Parameter_Model->get();
+
+
+        $this->header_view();
+        $this->_render_page('home_parameter_info', $this->data);
+        $this->_render_page('admin/table', $this->data);
+        $this->_render_page('admin/footer', $this->data);
     }
 
 }
