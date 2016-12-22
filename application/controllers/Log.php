@@ -39,11 +39,11 @@ class Log extends Admin_Controller {
                 array_push($data_table_array, $tmp);
             }
         }
-        $this->data['table_data'] = $this->table_view_pagination($heading, $data_table_array);
-        $this->data['caption'] = 'yea';
+        $this->data['table_data'] = $this->table_view_pagination($heading, $data_table_array, 'table_open_pagination');
+        $this->data['caption'] = 'Error Logs';
         $this->data['controller'] = 'table';
-        
-        
+
+
         $this->header_view();
         $this->_render_page('admin/table', $this->data);
         $this->_render_page('admin/footer', $this->data);
