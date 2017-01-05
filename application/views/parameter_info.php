@@ -31,7 +31,6 @@ defined('BASEPATH') or exit('Direct Script is not allowed');
                             <table class="table table-bordered table-invoice">
                                 <tbody>
                                     <tr>
-                                    <tr>
                                         <td>Year</td>
                                         <td><strong><?php echo $parameter->year ?></strong></td>
                                     </tr>

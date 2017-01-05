@@ -6,7 +6,7 @@ class Feedback extends Admin_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->load->model(array('User_Model', 'Subject_Model'));
+        $this->load->model(array('User_Model', 'Subject_Model', 'Remark_Model'));
     }
 
     private function _data_($semester, $year, $course) {
@@ -139,6 +139,12 @@ class Feedback extends Admin_Controller {
             }
         }
 
+        # key- question key | value - total of score in qiestion
+        # I initialize here to not include 'remark'
+        $score_summary = $question_keys;
+
+        //add one header fro remarks
+        $question_keys['remark'] = 'Remarks';
 
         $scores = array();
         //getting the score individuals
@@ -158,18 +164,30 @@ class Feedback extends Admin_Controller {
                             ))->get();
                     if ($score_obj) {
                         $tmp[] = $score_obj->score_value;
+
+                        #key | add score (append)
+                        $score_summary[$qk] += $score_obj->score_value;
                     } else {
                         $has_ = FALSE;
                         continue;
                         //  $tmp[]='xx';
                     }
                 }
+
+                //finally add remark value in every row
+                $tmp[] = $this->Remark_Model->where(array(
+                            'subject_id' => $subject_obj->subject_id,
+                            'student_id' => $id
+                        ))->get()->remark_value;
+
                 if (!$has_) {
                     continue;
                 }
                 $scores[] = $tmp;
             }
+            //echo print_r($score_summary);
         }
+
 
 
         $this->data['caption'] = lang('score_label');
@@ -178,12 +196,16 @@ class Feedback extends Admin_Controller {
         $this->data['parameter'] = $this->Parameter_Model->get_parameter($subject_obj);
         $this->data['faculty'] = $this->User_Model->where(array('id' => $subject_obj->user_id))->get();
         $this->data['subject'] = $subject_obj;
+        //remove
+        unset($question_keys['remark']);
+        $this->data['table_data_summary'] = $this->table_view_pagination($question_keys, array($score_summary), 'table_open_invoice');
 
 
         $this->header_view();
         $this->_render_page('parameter_info', $this->data);
         $this->_render_page('admin/table', $this->data);
-     //   $this->_render_page('admin/chart', $this->data);
+        $this->_render_page('admin/result_summary.php', $this->data);
+        //   $this->_render_page('admin/chart', $this->data);
         $this->_render_page('admin/footer', $this->data);
     }
 
