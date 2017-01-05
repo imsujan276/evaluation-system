@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @author Lloric Mayuga Gracia <emorickfighter@gmail.com>
- */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Chart extends Admin_Controller {

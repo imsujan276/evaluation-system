@@ -1,10 +1,6 @@
 <?php
 
-/**
- * 
- * 
- * @author Lloric Garcia <emorickfighter@gmail.com>
- */
+
 defined('BASEPATH') or exit('no direct script allowed');
 
 if (!function_exists('backup_database')) {

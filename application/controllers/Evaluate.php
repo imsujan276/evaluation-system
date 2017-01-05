@@ -68,7 +68,7 @@ class Evaluate extends Public_Controller {
         $this->create_validation_rules($question_obj);
         if ($question_obj) {
             foreach ($question_obj as $k => $v) {
-                $table_data[] = array($v->question_key, $v->question_value, form_dropdown($v->question_key, drop_down_0_9(0, 9)));
+                $table_data[] = array($v->question_key, $v->question_value, form_dropdown($v->question_key, drop_down_0_9(0, 4)));
             }
         }
 

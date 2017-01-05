@@ -1,8 +1,6 @@
 <?php
 
-/**
- * @author Lloric Mayuga Gracia <emorickfighter@gmail.com>
- */
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Parameter extends Admin_Controller {

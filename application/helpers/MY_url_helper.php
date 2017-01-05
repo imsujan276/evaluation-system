@@ -1,10 +1,6 @@
 <?php
 
-/**
- * 
- * 
- * @author Lloric Garcia <emorickfighter@gmail.com>
- */
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 if (!function_exists('check_id_form_url')) {

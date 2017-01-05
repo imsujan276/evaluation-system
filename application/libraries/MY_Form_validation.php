@@ -43,7 +43,7 @@ defined('BASEPATH') or exit('Direct Script is not allowed');
   options: i case insensitive m make dot match newlines x ignore whitespace in regex o perform #{...} substitutions only once
  * 
  * 
- * @author Lloric Garcia <emorickfighter@gmail.com>
+ *
  */
 class MY_Form_validation extends CI_Form_validation {
 
@@ -60,9 +60,9 @@ class MY_Form_validation extends CI_Form_validation {
      */
     public function numeric_0_to_9($value) {
         $this->CI->form_validation->set_message('numeric_0_to_9', lang('validation_numeric_0_to_9'));
-        if ($value >= 0 && $value <= 9) {
+        if ($value >= 0 && $value <= 4) {
             return TRUE;
-        } else if ($value < 0 || $value > 9) {
+        } else if ($value < 0 || $value > 4) {
 
             /**
              * if someone try in inspect element then change the html values

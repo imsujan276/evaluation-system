@@ -16,9 +16,9 @@ defined('BASEPATH') or exit('Direct Script is not allowed');
                             <table class="">
                                 <tbody>
                                     <tr>
-                                        <td><h4>Evaluation System</h4></td>
+                                        <td><h4>Saint' Mary's College of Labason Evaluation System</h4></td>
                                     </tr>
-                                    <tr>
+<!--                                    <tr>
                                         <td>Your Town</td>
                                     </tr>
                                     <tr>
@@ -29,7 +29,7 @@ defined('BASEPATH') or exit('Direct Script is not allowed');
                                     </tr>
                                     <tr>
                                         <td >me@company.com</td>
-                                    </tr>
+                                    </tr>-->
                                 </tbody>
                             </table>
                         </div>
