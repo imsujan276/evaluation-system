@@ -174,14 +174,14 @@ class Feedback extends Admin_Controller {
                     }
                 }
 
-                //finally add remark value in every row
-                $tmp[] = $this->Remark_Model->where(array(
-                            'subject_id' => $subject_obj->subject_id,
-                            'student_id' => $id
-                        ))->get()->remark_value;
-
                 if (!$has_) {
                     continue;
+                } else {
+                    //finally add remark value in every row
+                    $tmp[] = $this->Remark_Model->where(array(
+                                'subject_id' => $subject_obj->subject_id,
+                                'student_id' => $id
+                            ))->get()->remark_value;
                 }
                 $scores[] = $tmp;
             }
