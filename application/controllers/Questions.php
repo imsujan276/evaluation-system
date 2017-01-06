@@ -22,16 +22,20 @@ class Questions extends Admin_Controller {
                 ));
             }
         }
-        
+
         $headings = array(
             '#', lang('question_key_label'), lang('question_value_label')
         );
-        $this->data['table_data'] = $this->table_view_pagination($headings, $data_table,'table_open_pagination');
+        $this->data['table_data'] = $this->table_view_pagination($headings, $data_table, 'table_open_pagination');
         $this->data['caption'] = lang('question_label');
         $this->data['controller'] = 'table';
-        
-        
+
+
         $this->header_view();
+        $this->_render_page('admin/button_view', array(
+            'href' => 'create-question',
+            'button_label' => lang('create_question_label'),
+        ));
         $this->_render_page('admin/table', $this->data);
         $this->_render_page('admin/footer', $this->data);
     }

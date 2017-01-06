@@ -34,6 +34,10 @@ class Subjects extends Admin_Controller {
 
 
         $this->header_view();
+        $this->_render_page('admin/button_view', array(
+            'href' => 'create-subject',
+            'button_label' => lang('subject_create_label'),
+        ));
         $this->_render_page('admin/table', $this->data);
         $this->_render_page('admin/footer', $this->data);
     }
