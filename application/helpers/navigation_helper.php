@@ -103,7 +103,7 @@ if (!function_exists('navigations_main')) {
             array(
                 'label' => lang('feedback_label'),
                 'desc' => 'Dashboard Description',
-                'icon' => 'bullhorn', 
+                'icon' => 'bullhorn',
                 'sub' =>
                 array(
                     'feedback' =>
@@ -127,12 +127,12 @@ if (!function_exists('navigations_main')) {
                 'icon' => 'cogs',
                 'sub' =>
                 array(
-                    'language' =>
-                    array(
-                        'label' => lang('lang_label'),
-                        'desc' => 'Language Description',
-                        'seen' => TRUE,
-                    ),
+//                    'language' =>
+//                    array(
+//                        'label' => lang('lang_label'),
+//                        'desc' => 'Language Description',
+//                        'seen' => TRUE,
+//                    ),
                     'database' =>
                     array(
                         'label' => 'Database',
@@ -187,12 +187,12 @@ if (!function_exists('navigations_setting')) {
 
     function navigations_setting() {
         return array(
-            'language' =>
-            array(
-                'label' => lang('lang_label'),
-                'desc' => 'Language Description',
-                'icon' => 'comments-alt',
-            ),
+//            'language' =>
+//            array(
+//                'label' => lang('lang_label'),
+//                'desc' => 'Language Description',
+//                'icon' => 'comments-alt',
+//            ),
             'database' =>
             array(
                 'label' => 'Database',
@@ -214,12 +214,12 @@ if (!function_exists('public_navigations_setting')) {
 
     function public_navigations_setting() {
         return array(
-            'language' =>
-            array(
-                'label' => lang('lang_label'),
-                'desc' => 'Language Description',
-                'icon' => 'comments-alt',
-            ),
+//            'language' =>
+//            array(
+//                'label' => lang('lang_label'),
+//                'desc' => 'Language Description',
+//                'icon' => 'comments-alt',
+//            ),
         );
     }
 
