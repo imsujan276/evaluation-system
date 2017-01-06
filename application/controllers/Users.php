@@ -58,10 +58,10 @@ class Users extends Admin_Controller {
             'href' => 'create-user',
             'button_label' => lang('create_user_heading'),
         ));
-        $this->_render_page('admin/button_view', array(
-            'href' => 'users/export-excel',
-            'button_label' => lang('excel_export'),
-        ));
+//        $this->_render_page('admin/button_view', array(
+//            'href' => 'users/export-excel',
+//            'button_label' => lang('excel_export'),
+//        ));
         $this->_render_page('admin/table', $this->data);
         $this->_render_page('admin/footer', $this->data);
     }
