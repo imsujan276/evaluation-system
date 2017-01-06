@@ -77,7 +77,7 @@ class Evaluate extends Public_Controller {
         $this->data['faculty'] = $user_obj;
         $this->data['subject'] = $subject_obj;
         $this->data['controller'] = 'table';
-        $this->data['caption'] = 'Evaluation Form';
+        $this->data['caption'] = 'Evaluation Form | Excellent - 4 / Average - 3 / Below Average -2 / Needs Improvement -1';
         $this->data['remark'] = array(
             'name' => 'remark',
             'cols' => '600',

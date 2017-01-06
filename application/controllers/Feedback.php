@@ -146,6 +146,8 @@ class Feedback extends Admin_Controller {
         //add one header fro remarks
         $question_keys['remark'] = 'Remarks';
 
+        //devider
+        $divider = 0;
         $scores = array();
         //getting the score individuals
         if ($question_obj) {
@@ -177,6 +179,7 @@ class Feedback extends Admin_Controller {
                 if (!$has_) {
                     continue;
                 } else {
+                    $divider++;
                     //finally add remark value in every row
                     $tmp[] = $this->Remark_Model->where(array(
                                 'subject_id' => $subject_obj->subject_id,
@@ -198,7 +201,12 @@ class Feedback extends Admin_Controller {
         $this->data['subject'] = $subject_obj;
         //remove
         unset($question_keys['remark']);
-        $this->data['table_data_summary'] = $this->table_view_pagination($question_keys, array($score_summary), 'table_open_invoice');
+        $divided_scores = array();
+        foreach ($score_summary as $k => $v) {
+            $divided_scores[$k] = $v / $divider;
+        }
+
+        $this->data['table_data_summary'] = $this->table_view_pagination($question_keys, array($divided_scores), 'table_open_invoice');
 
 
         $this->header_view();
