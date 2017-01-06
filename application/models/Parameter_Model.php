@@ -26,7 +26,7 @@ class Parameter_Model extends CI_Model {
 
     public function get() {
         $rs = $this->db->get(self::DB_TABLE);
-        if ($rs->current_row > 0) {
+        if ($this->db->affected_rows() > 0) {
             $row = $rs->row();
             $this->semester = $row->semester;
             $this->year = $row->year;
