@@ -1,9 +1,4 @@
 <?php
-/**
- * 
- * 
- * @author Lloric Garcia <emorickfighter@gmail.com>
- */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
@@ -127,6 +122,10 @@ $sub_label = html_escape(((isset($menu_items[$menu_current]['label'])) ? '' : $m
                         <i class="icon icon-bolt"></i> 
                         <span class="text">
                             {elapsed_time} 
+                        </span> 
+                        <i class="icon icon-leaf"></i> 
+                        <span class="text">
+                            {memory_usage}
                         </span>
                         <i class="icon icon-beaker"></i> 
                         <span class="text">

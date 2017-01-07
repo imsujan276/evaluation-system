@@ -70,9 +70,8 @@ class MY_Controller extends CI_Controller {
      * 
      * @param array $header table header
      * @param array $data table data
-     * @param string $table_config_type config type of table (table_open_pagination | table_open_bordered
+     * @param string $table_config_type config type of table (table_open_pagination | table_open_bordered | table_open_invoice)
      * @return string generated html table with data
-     * @author Lloric Mayuga Garcia <emorickfighter@gmail.com>
      */
     public function table_view_pagination($header, $data, $table_config_type) {
         $this->config->load('table');
