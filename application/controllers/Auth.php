@@ -53,9 +53,10 @@ class Auth extends MY_Controller {
         //forgot password
         $this->data['type'] = $this->config->item('identity', 'ion_auth');
         // setup the input
-        $this->data['identity'] = array('name' => 'identity',
-            'id' => 'identity',
-        );
+//        $this->data['identity'] = array('name' => 'identity',
+//            'id' => 'identity',
+//            'placeholder' => 'Email'
+//        );
 
         if ($this->config->item('identity', 'ion_auth') != 'email') {
             $this->data['identity_label'] = $this->lang->line('forgot_password_identity_label');
