@@ -1,15 +1,62 @@
 <?php
+
+
+
+/*
+ |  -----------------------------
+ |  ___PROJECT_ENVIRONTMENT___
+ |  -----------------------------
+ |  
+ |  1 == DEVELOPMENT
+ |  2 == TESTING
+ |  3 == PRODUCTION
+ |
+ | if not specicy, default is development
+ */
+define('___PROJECT_ENVIRONTMENT___', 1);
+
+/*
+ |  -----------------------------
+ |  MAINTENANCE MODE
+ |  -----------------------------
+ |
+ |  
+ */
 $maintenance = FALSE; ## set to true to enable
+/*
+ |  -----------------------------
+ |  REMOTE VALID PUBLIC IP ADDRESS
+ |  -----------------------------
+ |
+ |  if maintenace is TRUE, set public ip address who the one access website
+ */
+$remote_addr='';
+
+
+
+
+//========================================================================
+//========================================================================
+//========================================================================
+//========================================================================
+//========================================================================
+//==============DO NOT MODIFY BELOW HERE==================================
+//========================================================================
+//========================================================================
+//========================================================================
+//========================================================================
+
+
 
 if ($maintenance) {
-    if (isset($_SERVER['REMOTE_ADDR']) and $_SERVER['REMOTE_ADDR'] == '175.158.232.29') {
+    if (isset($_SERVER['REMOTE_ADDR']) and $_SERVER['REMOTE_ADDR'] == $remote_addr ) {
         ##do nothing
     } else {
 
         error_reporting(E_ALL);
         ini_set('display_errors', 1); ## to debug your maintenance view
 
-        require_once 'maintanance.php'; ## call view
+        require_once 'maintenance.php'; ## call view
         return;
         exit();
     }
@@ -68,7 +115,18 @@ if ($maintenance) {
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+$ci_capstone_project_envi='development';
+if(defined('___PROJECT_ENVIRONTMENT___')){
+    if( ___PROJECT_ENVIRONTMENT___ === 1 ){
+        $ci_capstone_project_envi='development';
+    }else if( ___PROJECT_ENVIRONTMENT___ === 2 ){
+        $ci_capstone_project_envi='testing';
+    }else if( ___PROJECT_ENVIRONTMENT___ === 3 ){
+        $ci_capstone_project_envi='production';
+    }
+}
+	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : $ci_capstone_project_envi);
+
 /*
   |---------------------------------------------------------------
   | TimeZone
@@ -78,9 +136,9 @@ if ($maintenance) {
   |
 
  */
-if (function_exists('date_default_timezone_set')) {
+if (function_exists('date_default_timezone_set'))
     date_default_timezone_set('Asia/Manila');
-}
+
 
 
 /*
