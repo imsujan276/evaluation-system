@@ -49,7 +49,7 @@ class Users extends Admin_Controller
                             htmlspecialchars($user->email, ENT_QUOTES, 'UTF-8'),
                             $groups,
                             (($user->active) ? anchor("deactivate/index/" . $user->id, lang('index_active_link')) : anchor("users/activate/" . $user->id, lang('index_inactive_link'))),
-                            anchor("edit-user/index/" . $user->id, 'Edit'),
+                            anchor("edit-user/?user-id=" . $user->id, 'Edit'),
                         ));
                 }
 

@@ -18,20 +18,6 @@ class Question_Model extends MY_Model
                 parent::__construct();
         }
 
-        /**
-         * 
-         * @param array $data
-         * @return bool FALSE on failure
-         */
-        public function add($data)
-        {
-                $insert_data = array(
-                    array(
-                        'question_key'   => $data['key'],
-                        'question_value' => $data['value'],
-                    ),
-                );
-                return (bool) $this->db->insert_batch($this->table, $insert_data);
-        }
+     
 
 }

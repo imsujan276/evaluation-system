@@ -2,18 +2,31 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Create_subject extends Admin_Controller
+class Edit_subject extends Admin_Controller
 {
 
         function __construct()
         {
                 parent::__construct();
                 $this->load->helper('combobox');
-                $this->load->model('User_Model');
+                $this->load->model(array('User_Model', 'Subject_Model'));
         }
 
         public function index()
         {
+                $subject_id = NULL;
+                if (!$subject_id = $this->input->get('subject-id'))
+                {
+                        show_error('Missing parameter');
+                }
+                $subject_obj = $this->Subject_Model->get($subject_id);
+                if (!$subject_obj)
+                {
+                        show_error('Invalid request.');
+                }
+
+                $this->data['subject_id'] = $subject_id;
+
                 $this->header_view();
                 $this->data['message'] = '';
                 $this->form_validation->set_rules(array(
@@ -48,10 +61,9 @@ class Create_subject extends Admin_Controller
                         'rules' => 'required|numeric'
                     ),
                 ));
-
-                if ($this->form_validation->run())
+                $run__                 = $this->form_validation->run();
+                if ($run__)
                 {
-                        $this->load->model('Subject_Model');
                         $data_value = array(
                             'subject_code'     => $this->input->post('subject_code'),
                             'subject_desc'     => $this->input->post('subject_desc'),
@@ -62,10 +74,10 @@ class Create_subject extends Admin_Controller
                         );
                 }
 
-                if ($this->form_validation->run() and $this->Subject_Model->insert($data_value))
+                if ($run__ and $this->Subject_Model->update($data_value, $subject_id))
                 {
-                        $this->session->set_flashdata('message', lang('subject_create_success'));
-                        redirect(current_url(), 'refresh');
+                        $this->session->set_flashdata('message', lang('subject_update_success'));
+                        redirect(base_url("edit-subject/?subject-id=" . $subject_id), 'refresh');
                 }
                 else
                 {
@@ -74,44 +86,91 @@ class Create_subject extends Admin_Controller
                             'name'  => 'subject_code',
                             'id'    => 'subject_code',
                             'type'  => 'text',
-                            'value' => $this->form_validation->set_value('subject_code'),
+                            'value' => $this->set_value__(
+                                    $subject_obj->subject_code, 'subject_code'
+                            ),
                         );
+
+                        /////////////////////////////////////////////////////
 
                         $this->data['subject_desc'] = array(
                             'name'  => 'subject_desc',
                             'id'    => 'subject_desc',
                             'type'  => 'text',
-                            'value' => $this->form_validation->set_value('subject_desc'),
+                            'value' => $this->set_value__(
+                                    $subject_obj->subject_desc, 'subject_desc'
+                            ),
                         );
+
+                        //////////////////////////////////////////
 
                         $this->data['subject_year']       = array(
-                            'name'  => 'subject_year',
-                            'value' => $this->form_validation->set_value('subject_year'),
+                            'name' => 'subject_year',
                         );
                         $this->data['subject_year_combo'] = schoolyear_for_combo();
+                        $this->data['subject_year_value'] = $this->set_value__(
+                                $subject_obj->subject_year, 'subject_year'
+                        );
+
+                        /////////////////////////////////////////
+
 
                         $this->data['subject_semester']       = array(
-                            'name'  => 'subject_semester',
-                            'value' => $this->form_validation->set_value('subject_semester'),
+                            'name' => 'subject_semester',
                         );
                         $this->data['subject_semester_combo'] = semester_for_combo();
+                        $this->data['subject_semester_value'] = $this->set_value__(
+                                $subject_obj->subject_semester, 'subject_semester'
+                        );
+
+                        //////////////////////////////////////////////
+
 
                         $this->data['subject_course']       = array(
-                            'name'  => 'subject_course',
-                            'value' => $this->form_validation->set_value('subject_course'),
+                            'name' => 'subject_course',
                         );
                         $this->data['subject_course_combo'] = course_combo();
+                        $this->data['subject_course_value'] = $this->set_value__(
+                                $subject_obj->subject_course, 'subject_course'
+                        );
 
+                        ///////////////////////////////////////////////////////////
                         //get all user has faculty grooup
                         $this->data['faculty']       = array(
-                            'name'  => 'faculty',
-                            'value' => $this->form_validation->set_value('faculty'),
+                            'name' => 'faculty',
+                        );
+                        $this->data['faculty_value'] = $this->set_value__(
+                                $this->ion_auth->user($subject_obj->user_id)->row()->id, 'faculty'
                         );
                         $this->data['faculty_combo'] = $this->User_Model->faculties();
-
-                        $this->_render_page('admin/create_subject', $this->data);
+                        //   $this->data['faculty_value'] = $subject_obj->user_id;
+                        $this->_render_page('admin/edit_subject', $this->data);
                 }
+
+
+
                 $this->_render_page('admin/footer', $this->data);
+        }
+
+        /**
+         * 
+         * @param string $db_val
+         * @param string $post_val
+         * @return string
+         */
+        private function set_value__($db_val, $post_val)
+        {
+                $value__ = $this->form_validation->set_value($post_val);
+                if ($value__ != NULL)
+                {
+                        log_message('debug', $post_val . '111111<<<<<<<<<<<<' . $value__ . '>');
+                        return $value__;
+                }
+                else
+                {
+                        log_message('debug', $post_val . '2222222222<<<<<<<<<<<<' . $db_val . ']');
+                        return $db_val;
+                }
         }
 
 }

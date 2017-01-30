@@ -36,4 +36,26 @@ class User_Model extends MY_Model
 //         echo $this->db->last_query();
 //        return $array;
 //    }
+
+        public function faculties($id = NULL)
+        {
+                $array     = array();
+                $users_obj = $this->ion_auth->users($id)->result();
+                foreach ($users_obj as $k => $user)
+                {
+                        $groups_bj = $this->ion_auth->get_users_groups($user->id)->result();
+                        if ($groups_bj)
+                        {
+                                foreach ($groups_bj as $groups_bj)
+                                {
+                                        if ($groups_bj->name === 'faculty')
+                                        {
+                                                $array[$user->id] = $user->last_name . ', ' . $user->first_name;
+                                        }
+                                }
+                        }
+                }
+                return $array;
+        }
+
 }

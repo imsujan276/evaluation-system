@@ -33,9 +33,4 @@ class Subject_Model extends MY_Model
                 parent::__construct();
         }
 
-        public function insert_($data_value)
-        {
-                return $this->db->insert_batch($this->table, $data_value);
-        }
-
 }

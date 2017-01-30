@@ -29,7 +29,7 @@ class Subjects extends Admin_Controller
                                 $user_obj = $this->User_Model->where('id', $subject->user_id)->get();
                                 $fullname = $user_obj->last_name . ', ' . $user_obj->first_name;
                                 array_push($data_table, array(
-                                    $subject->subject_desc, $subject->subject_code, $subject->subject_year, $subject->subject_semester, $subject->subject_course, $fullname, anchor(base_url('subjects/#' . $subject->subject_id), lang('subject_edit'))
+                                    $subject->subject_desc, $subject->subject_code, $subject->subject_year, $subject->subject_semester, $subject->subject_course, $fullname, anchor(base_url('edit-subject/?subject-id=' . $subject->subject_id), lang('subject_edit'))
                                 ));
                         }
                 }

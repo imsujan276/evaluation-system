@@ -10,15 +10,25 @@ class Edit_user extends Admin_Controller
                 parent::__construct();
         }
 
-        public function index($id = NULL)
+        public function index()
         {
+                $user_id = NULL;
+                if (!$user_id = $this->input->get('user-id'))
+                {
+                        show_error('Missing parameter');
+                }
                 $this->data['title'] = $this->lang->line('edit_user_heading');
 
 
 
-                $user          = $this->ion_auth->user($id)->row();
-                $groups        = $this->ion_auth->groups()->result_array();
-                $currentGroups = $this->ion_auth->get_users_groups($id)->result();
+                $user = $this->ion_auth->user($user_id)->row();
+                if (!$user)
+                {
+                        show_error('Invalid request.');
+                }
+                $this->data['user_id'] = $user_id;
+                $groups                = $this->ion_auth->groups()->result_array();
+                $currentGroups         = $this->ion_auth->get_users_groups($user_id)->result();
 
                 //just 
                 // validate form input
@@ -30,7 +40,7 @@ class Edit_user extends Admin_Controller
                 if (isset($_POST) && !empty($_POST))
                 {
                         // do we have a valid request?
-                        if ($this->_valid_csrf_nonce() === FALSE || $id != $this->input->post('id'))
+                        if ($this->_valid_csrf_nonce() === FALSE || $user_id != $this->input->post('id'))
                         {
                                 show_error($this->lang->line('error_csrf'));
                         }
@@ -68,11 +78,11 @@ class Edit_user extends Admin_Controller
                                         if (isset($groupData) && !empty($groupData))
                                         {
 
-                                                $this->ion_auth->remove_from_group('', $id);
+                                                $this->ion_auth->remove_from_group('', $user_id);
 
                                                 foreach ($groupData as $grp)
                                                 {
-                                                        $this->ion_auth->add_to_group($grp, $id);
+                                                        $this->ion_auth->add_to_group($grp, $user_id);
                                                 }
                                         }
                                 }
@@ -84,7 +94,7 @@ class Edit_user extends Admin_Controller
                                         $this->session->set_flashdata('message', $this->ion_auth->messages());
                                         if ($this->ion_auth->is_admin())
                                         {
-                                                redirect(current_url(), 'refresh');
+                                                redirect(base_url('edit-user/?user-id=' . $user_id), 'refresh');
                                         }
                                         else
                                         {

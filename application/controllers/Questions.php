@@ -23,13 +23,14 @@ class Questions extends Admin_Controller
                         foreach ($question_obj as $question)
                         {
                                 array_push($data_table, array(
-                                    $inc++, $question->question_key, $question->question_value
+                                    $inc++, $question->question_key, $question->question_value,
+                                    anchor(base_url('edit-question/?question-id=' . $question->question_id), lang('question_edit'))
                                 ));
                         }
                 }
 
                 $headings                 = array(
-                    '#', lang('question_key_label'), lang('question_value_label')
+                    '#', lang('question_key_label'), lang('question_value_label'), lang('question_table_option')
                 );
                 $this->data['table_data'] = $this->table_view_pagination($headings, $data_table, 'table_open_pagination');
                 $this->data['caption']    = lang('question_label');

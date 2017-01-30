@@ -78,6 +78,12 @@ if (!function_exists('navigations_main'))
                                 'desc'  => 'Database Description',
                                 'seen'  => TRUE,
                             ),
+                            'edit-subject'   =>
+                            array(
+                                'label' => lang('subject_edit'),
+                                'desc'  => 'Edit Subject Description',
+                                'seen'  => FALSE,
+                            ),
                         ),
                     ),
                     //sub menu
@@ -98,6 +104,12 @@ if (!function_exists('navigations_main'))
                                 'label' => lang('create_question_label'),
                                 'desc'  => 'Database Description',
                                 'seen'  => TRUE,
+                            ),
+                            'edit-question'   =>
+                            array(
+                                'label' => lang('question_edit'),
+                                'desc'  => 'Edit Question Description',
+                                'seen'  => FALSE,
                             ),
                         ),
                     ),

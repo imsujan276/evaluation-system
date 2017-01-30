@@ -34,12 +34,12 @@ class Create_question extends Admin_Controller
                 if ($run)
                 {
                         $data__ = array(
-                            'key'   => $this->input->post('question_key'),
-                            'value' => $this->input->post('question_value'),
+                            'question_key'   => $this->input->post('question_key'),
+                            'question_value' => $this->input->post('question_value')
                         );
                 }
 
-                if ($run and $this->Question_Model->add($data__))
+                if ($run and $this->Question_Model->insert($data__))
                 {
                         $this->session->set_flashdata('message', lang('question_create_success'));
                         redirect(current_url(), 'refresh');
