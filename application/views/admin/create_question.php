@@ -16,9 +16,9 @@ defined('BASEPATH') or exit('Direct Script is not allowed');
                     echo $message;
 
                     echo form_open(base_url("create-question/index"), array(
-                        'class' => 'form-horizontal',
-                        'name' => 'basic_validate',
-                        'id' => 'basic_validate',
+                        'class'      => 'form-horizontal',
+                        'name'       => 'basic_validate',
+                        'id'         => 'basic_validate',
                         'novalidate' => 'novalidate',
                     ));
 
@@ -29,7 +29,7 @@ defined('BASEPATH') or exit('Direct Script is not allowed');
                     echo '<div class="control-group' . $tmp . '">';
                     echo lang('question_key_label', 'question_key', array(
                         'class' => 'control-label',
-                        'id' => 'inputError'
+                        'id'    => 'inputError'
                     ));
                     echo '<div class="controls">';
                     echo form_input($question_key, array(
@@ -45,7 +45,7 @@ defined('BASEPATH') or exit('Direct Script is not allowed');
                     echo '<div class="control-group' . $tmp . '">';
                     echo lang('question_value_label', 'question_value', array(
                         'class' => 'control-label',
-                        'id' => 'inputError'
+                        'id'    => 'inputError'
                     ));
                     echo '<div class="controls">';
                     echo form_textarea($question_value, array(

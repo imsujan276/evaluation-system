@@ -2,19 +2,21 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class User_Model extends MY_Model {
+class User_Model extends MY_Model
+{
 
-    public function __construct() {
-        $this->table = 'users';
-        $this->primary_key = 'id';
-        //   $this->soft_deletes = true;
-        //$this->has_one['details'] = 'User_details_model';
-        // $this->has_one['details'] = array('User_details_model','user_id','id');
-        //  $this->has_one['details'] = array('local_key' => 'id', 'foreign_key' => 'user_id', 'foreign_model' => 'User_details_model');
-        // $this->has_many['posts'] = 'Post_model';
+        public function __construct()
+        {
+                $this->table       = 'users';
+                $this->primary_key = 'id';
+                //   $this->soft_deletes = true;
+                //$this->has_one['details'] = 'User_details_model';
+                // $this->has_one['details'] = array('User_details_model','user_id','id');
+                //  $this->has_one['details'] = array('local_key' => 'id', 'foreign_key' => 'user_id', 'foreign_model' => 'User_details_model');
+                // $this->has_many['posts'] = 'Post_model';
 
-        parent::__construct();
-    }
+                parent::__construct();
+        }
 
 //    public function insert_($data_value) {
 //        return $this->db->insert_batch($this->table, $data_value);
@@ -34,5 +36,4 @@ class User_Model extends MY_Model {
 //         echo $this->db->last_query();
 //        return $array;
 //    }
-
 }

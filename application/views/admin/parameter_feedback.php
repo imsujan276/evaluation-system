@@ -15,14 +15,14 @@ defined('BASEPATH') or exit('Direct Script is not allowed');
 
                     <?php
 //echo validation_errors();
-                   // echo $message;
+                    // echo $message;
 
                     echo form_open(base_url("feedback/index"), array(
-                        'class' => 'form-horizontal',
-                        'name' => 'basic_validate',
-                        'id' => 'basic_validate',
+                        'class'      => 'form-horizontal',
+                        'name'       => 'basic_validate',
+                        'id'         => 'basic_validate',
                         'novalidate' => 'novalidate',
-                        'method'=>'get'
+                        'method'     => 'get'
                     ));
 
 
@@ -34,7 +34,7 @@ defined('BASEPATH') or exit('Direct Script is not allowed');
                     echo '<div class="control-group' . $tmp . '">';
                     echo lang('subject_year', 'subject_year', array(
                         'class' => 'control-label',
-                        'id' => 'inputError'
+                        'id'    => 'inputError'
                     ));
                     echo '<div class="controls">';
                     echo form_dropdown($subject_year, $subject_year_combo);
@@ -48,7 +48,7 @@ defined('BASEPATH') or exit('Direct Script is not allowed');
                     echo '<div class="control-group' . $tmp . '">';
                     echo lang('subject_semester', 'subject_semester', array(
                         'class' => 'control-label',
-                        'id' => 'inputError'
+                        'id'    => 'inputError'
                     ));
                     echo '<div class="controls">';
                     echo form_dropdown($subject_semester, $subject_semester_combo);
@@ -62,7 +62,7 @@ defined('BASEPATH') or exit('Direct Script is not allowed');
                     echo '<div class="control-group' . $tmp . '">';
                     echo lang('subject_course', 'subject_course', array(
                         'class' => 'control-label',
-                        'id' => 'inputError'
+                        'id'    => 'inputError'
                     ));
                     echo '<div class="controls">';
                     echo form_dropdown($subject_course, $subject_course_combo);

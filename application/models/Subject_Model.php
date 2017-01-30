@@ -2,18 +2,18 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Subject_Model extends MY_Model {
+class Subject_Model extends MY_Model
+{
 
-    public function __construct() {
-        $this->table = 'subject';
-        $this->primary_key = 'subject_id';
-        //   $this->soft_deletes = true;
-        //$this->has_one['details'] = 'User_details_model';
-        // $this->has_one['details'] = array('User_details_model','user_id','id');
-        //  $this->has_one['details'] = array('local_key' => 'id', 'foreign_key' => 'user_id', 'foreign_model' => 'User_details_model');
-        // $this->has_many['posts'] = 'Post_model';
-     
-        
+        public function __construct()
+        {
+                $this->table       = 'subject';
+                $this->primary_key = 'subject_id';
+                //   $this->soft_deletes = true;
+                //$this->has_one['details'] = 'User_details_model';
+                // $this->has_one['details'] = array('User_details_model','user_id','id');
+                //  $this->has_one['details'] = array('local_key' => 'id', 'foreign_key' => 'user_id', 'foreign_model' => 'User_details_model');
+                // $this->has_many['posts'] = 'Post_model';
 //        
 //        $this->has_one['user'] = array(
 //            'foreign_model' => 'User_Model',
@@ -30,11 +30,12 @@ class Subject_Model extends MY_Model {
 //            'pivot_foreign_key'=>'user_id',
 //            'foreign_key'=>'id');
 
-        parent::__construct();
-    }
+                parent::__construct();
+        }
 
-    public function insert_($data_value) {
-        return $this->db->insert_batch($this->table, $data_value);
-    }
+        public function insert_($data_value)
+        {
+                return $this->db->insert_batch($this->table, $data_value);
+        }
 
 }

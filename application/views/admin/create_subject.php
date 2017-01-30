@@ -16,9 +16,9 @@ defined('BASEPATH') or exit('Direct Script is not allowed');
                     echo $message;
 
                     echo form_open(base_url("create-subject/index"), array(
-                        'class' => 'form-horizontal',
-                        'name' => 'basic_validate',
-                        'id' => 'basic_validate',
+                        'class'      => 'form-horizontal',
+                        'name'       => 'basic_validate',
+                        'id'         => 'basic_validate',
                         'novalidate' => 'novalidate',
                     ));
 
@@ -29,7 +29,7 @@ defined('BASEPATH') or exit('Direct Script is not allowed');
                     echo '<div class="control-group' . $tmp . '">';
                     echo lang('subject_code', 'subject_code', array(
                         'class' => 'control-label',
-                        'id' => 'inputError'
+                        'id'    => 'inputError'
                     ));
                     echo '<div class="controls">';
                     echo form_input($subject_code, array(
@@ -45,7 +45,7 @@ defined('BASEPATH') or exit('Direct Script is not allowed');
                     echo '<div class="control-group' . $tmp . '">';
                     echo lang('subject_desc', 'subject_desc', array(
                         'class' => 'control-label',
-                        'id' => 'inputError'
+                        'id'    => 'inputError'
                     ));
                     echo '<div class="controls">';
                     echo form_input($subject_desc, array(
@@ -62,7 +62,7 @@ defined('BASEPATH') or exit('Direct Script is not allowed');
                     echo '<div class="control-group' . $tmp . '">';
                     echo lang('subject_year', 'subject_year', array(
                         'class' => 'control-label',
-                        'id' => 'inputError'
+                        'id'    => 'inputError'
                     ));
                     echo '<div class="controls">';
                     echo form_dropdown($subject_year, $subject_year_combo);
@@ -76,7 +76,7 @@ defined('BASEPATH') or exit('Direct Script is not allowed');
                     echo '<div class="control-group' . $tmp . '">';
                     echo lang('subject_semester', 'subject_semester', array(
                         'class' => 'control-label',
-                        'id' => 'inputError'
+                        'id'    => 'inputError'
                     ));
                     echo '<div class="controls">';
                     echo form_dropdown($subject_semester, $subject_semester_combo);
@@ -90,7 +90,7 @@ defined('BASEPATH') or exit('Direct Script is not allowed');
                     echo '<div class="control-group' . $tmp . '">';
                     echo lang('subject_course', 'subject_course', array(
                         'class' => 'control-label',
-                        'id' => 'inputError'
+                        'id'    => 'inputError'
                     ));
                     echo '<div class="controls">';
                     echo form_dropdown($subject_course, $subject_course_combo);
@@ -103,7 +103,7 @@ defined('BASEPATH') or exit('Direct Script is not allowed');
                     echo '<div class="control-group' . $tmp . '">';
                     echo lang('subject_fuculty', 'faculty', array(
                         'class' => 'control-label',
-                        'id' => 'inputError'
+                        'id'    => 'inputError'
                     ));
                     echo '<div class="controls">';
 //                    echo form_input($faculty, array(
