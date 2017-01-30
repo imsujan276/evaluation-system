@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 22, 2016 at 07:26 PM
+-- Generation Time: Jan 30, 2017 at 12:34 PM
 -- Server version: 10.1.19-MariaDB
 -- PHP Version: 5.6.24
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `evaluation_v2`
+-- Database: `evaluation`
 --
 
 -- --------------------------------------------------------
@@ -150,7 +150,10 @@ INSERT INTO `public_preferences` (`id`, `transition_page`) VALUES
 CREATE TABLE `question` (
   `question_id` int(11) NOT NULL,
   `question_key` varchar(20) NOT NULL,
-  `question_value` varchar(1000) NOT NULL
+  `question_value` varchar(1000) NOT NULL,
+  `created_at` varchar(500) NOT NULL,
+  `updated_at` varchar(500) NOT NULL,
+  `deleted_at` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -197,7 +200,10 @@ CREATE TABLE `subject` (
   `subject_year` varchar(20) NOT NULL,
   `subject_semester` varchar(10) NOT NULL,
   `subject_course` varchar(10) NOT NULL,
-  `user_id` int(11) NOT NULL
+  `user_id` int(11) NOT NULL,
+  `created_at` varchar(500) NOT NULL,
+  `updated_at` varchar(500) NOT NULL,
+  `deleted_at` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -231,7 +237,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `salt`, `email`, `activation_code`, `forgotten_password_code`, `forgotten_password_time`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`) VALUES
-(1, '127.0.0.1', 'administrator', '$2y$08$gWUecOMjM1o05fYKvYEdZuy9YMYXieLzj6ly6y0LjnuKzNmIPZ6qO', '', 'admin@admin.com', 'd3bf03427835d496277d4c78330a125a795a33f8', NULL, NULL, NULL, 1268889823, 1482417129, 1, 'Im Admin', 'evaluation', 'ADMIN', '0');
+(1, '127.0.0.1', 'administrator', '$2y$08$gWUecOMjM1o05fYKvYEdZuy9YMYXieLzj6ly6y0LjnuKzNmIPZ6qO', '', 'admin@admin.com', 'd3bf03427835d496277d4c78330a125a795a33f8', 'aLMHbxq0-KULszZDUUTIGud31cf8c5165fdfbe42', 1485607112, NULL, 1268889823, 1485776080, 1, 'Im Admin', 'evaluation', 'ADMIN', '0');
 
 -- --------------------------------------------------------
 
@@ -250,7 +256,7 @@ CREATE TABLE `users_groups` (
 --
 
 INSERT INTO `users_groups` (`id`, `user_id`, `group_id`) VALUES
-(46, 1, 1);
+(56, 1, 1);
 
 --
 -- Indexes for dumped tables
@@ -389,12 +395,12 @@ ALTER TABLE `subject`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `users_groups`
 --
 ALTER TABLE `users_groups`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 --
 -- Constraints for dumped tables
 --
