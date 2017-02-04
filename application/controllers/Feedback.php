@@ -229,13 +229,28 @@ class Feedback extends Admin_Controller
                 //remove
                 unset($question_keys['remark']);
                 $divided_scores           = array();
+
+                $total_number_of_question = 0;
+                $total_score_of_question  = 0;
+
                 foreach ($score_summary as $k => $v)
                 {
-                        $divided_scores[$k] = $v / $divider;
+                        $divided_scores[$k]      = round($v / $divider, 1);
+                        $total_number_of_question++;
+                        $total_score_of_question += $v;
                 }
 
                 $this->data['table_data_summary'] = $this->table_view_pagination($question_keys, array($divided_scores), 'table_open_invoice');
 
+                /**
+                 * final average of faculty
+                 */
+                $average = $total_score_of_question / $total_number_of_question;
+
+                $this->data['ave__'] = round($average, 1);
+
+                $percentage          = ($average * 100) / $total_number_of_question;
+                $this->data['per__'] = round($percentage, 1);
 
                 $this->header_view();
                 $this->_render_page('parameter_info', $this->data);

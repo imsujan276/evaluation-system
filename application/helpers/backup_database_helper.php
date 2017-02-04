@@ -8,20 +8,20 @@ if (!function_exists('backup_database'))
         /**
          * 
          */
-        function backup_database()
+        function backup_database($dbname)
         {
                 $CI     = &get_instance();
                 $CI->load->dbutil();
                 $prefs  = array(
                     'format'   => 'zip',
-                    'filename' => 'evaluation.sql',
+                    'filename' => $dbname . '.sql',
                 );
                 $backup = $CI->dbutil->backup($prefs);
 
                 $CI->load->helper(array('download', 'date'));
                 $date = str_replace(' ', '_', my_current_datetime_information());
                 $date = str_replace(',', '', $date);
-                force_download('ci_capstone_db_backup_' . $date . '.zip', $backup);
+                force_download($dbname . '_db_backup_' . $date . '.zip', $backup);
         }
 
 }

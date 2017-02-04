@@ -18,6 +18,15 @@ defined('BASEPATH') or exit('Direct Script is not allowed');
                     </div>
 
                 </div>
+                <div class="widget-content">
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <h1><b>Average: </b>  <?php echo $ave__; ?></h1>
+                            <h1><b>Percent: </b>  <?php echo $per__; ?>%</h1>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>

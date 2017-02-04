@@ -46,7 +46,7 @@ class Database extends Admin_Controller
         public function backup_database()
         {
                 $this->load->helper('backup_database');
-                backup_database();
+                backup_database('evaluation_system');
         }
 
 }
