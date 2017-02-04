@@ -10,6 +10,7 @@ class Evaluate extends Public_Controller
                 parent::__construct();
                 $this->load->model(array('Subject_Model', 'Parameter_Model', 'User_Model', 'Question_Model', 'Remark_Model'));
                 $this->load->helper('combobox');
+                $this->config->load('admin/score');
         }
 
         private function validate($subject_id = NULL)
@@ -79,7 +80,7 @@ class Evaluate extends Public_Controller
                 {
                         foreach ($question_obj as $k => $v)
                         {
-                                $table_data[] = array($v->question_key, $v->question_value, form_dropdown($v->question_key, drop_down_0_9(0, 4)));
+                                $table_data[] = array($v->question_key, $v->question_value, form_dropdown($v->question_key, drop_down_0_9(0, (int) $this->config->item('max_score'))));
                         }
                 }
 

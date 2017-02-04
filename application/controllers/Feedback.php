@@ -9,6 +9,7 @@ class Feedback extends Admin_Controller
         {
                 parent::__construct();
                 $this->load->model(array('User_Model', 'Subject_Model', 'Remark_Model'));
+                $this->config->load('admin/score');
         }
 
         private function _data_($semester, $year, $course)
@@ -245,11 +246,11 @@ class Feedback extends Admin_Controller
                 /**
                  * final average of faculty
                  */
-                $average = $total_score_of_question / $total_number_of_question;
+                $average = ($total_score_of_question / $total_number_of_question) / 2;
 
                 $this->data['ave__'] = round($average, 1);
 
-                $percentage          = ($average * 100) / $total_number_of_question;
+                $percentage          = ($average * 100) / ((int) $this->config->item('max_score'));
                 $this->data['per__'] = round($percentage, 1);
 
                 $this->header_view();
